@@ -1,0 +1,29 @@
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+
+<header>
+    <nav class="navbar navbar-inverse bg-inverse">
+        <div class="container">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="/">BGOUG</a>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/member/all}">Членове</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/events/all}">Събития</a>
+                    </li>
+                    <li class="nav-item" >
+                        <a class="nav-link" th:href="@{/companies/all}">Компании</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+

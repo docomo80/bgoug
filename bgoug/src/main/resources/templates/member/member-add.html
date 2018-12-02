@@ -1,0 +1,101 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<main class="col-4 offset-4 text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center"><h1 class="display-5">Добавете нов член</h1></div>
+                <br/>
+                <form th:method="post" th:object="${members}">
+                    <div class="form-group row">
+                        <label class="form-control-label">Име</label>
+                        <input type="text" class="form-control" th:field="*{name}" required/>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-control-label">Адрес</label>
+                        <input type="text" class="form-control" th:field="*{address}" required/>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-control-label">Длъжност</label>
+                        <input type="text" class="form-control" th:field="*{position}" required/>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-control-label">телефонен номер</label>
+                        <input type="number" class="form-control" th:field="*{telephoneNumber}" required/>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-control-label">Тип членство </label>
+                        <select class="form-control" name="memberType" required>
+                            <option value="">Моля изберете</option>
+                            <option th:each="name : ${T(com.example.bgoug.member.enums.MemberType).values()}"
+                                    th:value="${{name}}"
+                                    th:text="${name}">
+                                <div th:text="${name}}"></div>
+                            </option>
+                        </select>
+                    </div>
+                    <!--isPayed-->
+                    <div class="form-group row">
+                        <label class="form-control-label">Заплатен членски внос? </label>
+                        <select class="form-control" name="isPayed" required>
+                            <option value="">Моля изберете</option>
+                            <option value="no">Не</option>
+                            <option value="yes">Да</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="form-control-label">За коя компания работите? </label>
+                        <select  class="form-control" name="companyName" required>
+                            <option value="">Моля изберете</option>
+                            <option th:each="company : ${companies}" th:value="${company.name}"
+                                    th:text="${company.name}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="form-control-label">Изберете събитие на което ще присъствате </label>
+                        <select class="form-control" name="event" id="dropOperator">
+                            <option value="">Моля изберете</option>
+                            <option th:each="event : ${events}" th:value="${event.name}"
+                                    th:text="${event.name}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-control-label">Изберете вашата операционна система </label>
+                        <select class="form-control" name="pcPlatform" required>
+                            <option value="">Моля изберете</option>
+                            <option th:each="name : ${T(com.example.bgoug.member.enums.PcPlatform).values()}"
+                                    th:value="${{name}}"
+                                    th:text="${name}">
+                                <div th:text="${name}}"></div>
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="form-control-label">Изберете интереси </label>
+                        <select class="form-control" name="applicationsList" multiple="multiple" required>
+                            <option value="">Моля изберете</option>
+                            <option th:each="currentApplication : ${applicationsList}"
+                                         th:value="${currentApplication.name}"
+                                         th:text="${currentApplication.name}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-control-label">Имате ли препоръка? </label>
+                        <select class="form-control" name="recommendedName">
+                            <option value="">Моля изберете</option>
+                            <option th:each="member : ${membersViews}" th:value="${member.name}"
+                                    th:text="${member.name}"></option>
+                        </select>
+                    </div>
+                    <input type="submit" class="btn btn-outline-warning btn-lg btn-block"
+                           th:value="Add"/>
+                </form>
+                <br/>
+            </div>
+        </div>
+    </div>
+</main>
+
