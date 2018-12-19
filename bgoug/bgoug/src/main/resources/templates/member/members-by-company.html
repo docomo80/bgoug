@@ -1,0 +1,31 @@
+<div class="container">
+    <!--<a href="/member/register" class="btn btn-outline-primary m-1"> Добави нов член</a>-->
+
+    <div class="row" style="padding: 10px">
+
+    </div>
+
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>Име</th>
+            <th>Адрес</th>
+            <th>Тип членство</th>
+            <th>Позиция</th>
+            <th>Телефонен номер</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="member : ${members}">
+            <th scope="row" th:text="${member.name}"></th>
+            <td th:text="${member.address}"></td>
+            <td th:text="${member.memberType}"></td>
+            <td th:text="${member.position}"></td>
+            <td th:text="${member.telephoneNumber}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
