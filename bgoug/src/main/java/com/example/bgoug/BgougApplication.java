@@ -12,8 +12,10 @@ public class BgougApplication {
         SpringApplication.run(BgougApplication.class, args);
 
     }
+
     @Bean
-    public ModelMapper getModelMapper(){
+    public ModelMapper getModelMapper() {
         return new ModelMapper();
     }
+
 }

@@ -1,20 +1,38 @@
 package com.example.bgoug.member.models.bindingModels;
 
+import com.example.bgoug.annotation.IsPasswordMatching;
 import com.example.bgoug.application.entities.Application;
 import com.example.bgoug.company.entities.Company;
 import com.example.bgoug.events.entities.Event;
+import com.example.bgoug.recommended_members.entities.RecommendedMember;
 
+import javax.persistence.Column;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
+@IsPasswordMatching
 public class MemberModel {
 
+    @Size(min = 4, message = "Името трябва да съдържа поне 4 символа")
     private String name;
 
+    @Column(unique = true)
+    @Size(min = 6, max = 12, message = "Потребителя трябва да съдържа поне 6 символа")
+    private String username;
+
+    @Size(min = 6, message = "Паролата трябва да съдържа между 6 и 12 символа")
+    private String password;
+
+    private String conformedPassword;
+
+    @Size(min = 5, message = "Позицията трябва да съдържа поне 5 символа")
     private String position;
 
+    @Size(min = 10, message = "Адресът трябва да съдържа поне 5 символа")
     private String address;
 
+    @Size(min = 9, message = "Телефонът трябва да съдържа поне 9 символа")
     private String telephoneNumber;
 
     private Boolean isEmployed;
@@ -31,7 +49,9 @@ public class MemberModel {
 
     private Set<Event> events;
 
-    private Set<String> recommendedMembers;
+    private Set<RecommendedMember> recommendedMembers;
+
+//    private Set<String> recommendedMembers;
 
     public MemberModel() {
         this.events = new HashSet<>();
@@ -119,6 +139,14 @@ public class MemberModel {
         this.company = company;
     }
 
+    public String getConformedPassword() {
+        return conformedPassword;
+    }
+
+    public void setConformedPassword(String conformedPassword) {
+        this.conformedPassword = conformedPassword;
+    }
+
     public String getPcPlatform() {
         return pcPlatform;
     }
@@ -127,13 +155,36 @@ public class MemberModel {
         this.pcPlatform = pcPlatform;
     }
 
-    public Set<String> getRecommendedMembers() {
+//    public Set<String> getRecommendedMembers() {
+//        return recommendedMembers;
+//    }
+//
+//    public void setRecommendedMembers(Set<String> recommendedMembers) {
+//        this.recommendedMembers = recommendedMembers;
+//    }
+
+
+    public Set<RecommendedMember> getRecommendedMembers() {
         return recommendedMembers;
     }
 
-    public void setRecommendedMembers(Set<String> recommendedMembers) {
+    public void setRecommendedMembers(Set<RecommendedMember> recommendedMembers) {
         this.recommendedMembers = recommendedMembers;
     }
 
+    public String getUsername() {
+        return username;
+    }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

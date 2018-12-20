@@ -54,4 +54,10 @@ public class EventServiceImpl implements EventService {
         return objects;
     }
 
+    @Override
+    public List<Object[]> getEventByDate(String date) {
+        List<Object[]> getEventsByYear = this.eventRepository.getEventByDate(date);
+        return getEventsByYear;
+    }
+
 }

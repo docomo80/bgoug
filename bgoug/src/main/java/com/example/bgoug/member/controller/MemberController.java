@@ -6,6 +6,7 @@ import com.example.bgoug.application.services.ApplicationService;
 import com.example.bgoug.company.entities.Company;
 import com.example.bgoug.company.models.ViewModels.CompanyView;
 import com.example.bgoug.company.services.CompanyService;
+import com.example.bgoug.errors.Error;
 import com.example.bgoug.events.entities.Event;
 import com.example.bgoug.events.models.ViewModels.EventView;
 import com.example.bgoug.events.services.EventService;
@@ -13,17 +14,26 @@ import com.example.bgoug.member.entities.Member;
 import com.example.bgoug.member.enums.MemberType;
 import com.example.bgoug.member.enums.PcPlatform;
 import com.example.bgoug.member.models.bindingModels.EditMemberModel;
+import com.example.bgoug.member.models.bindingModels.LoggedMember;
+import com.example.bgoug.member.models.bindingModels.MemberLogin;
 import com.example.bgoug.member.models.bindingModels.MemberModel;
 import com.example.bgoug.member.models.veiwModels.MemberView;
 import com.example.bgoug.member.models.veiwModels.MemberViewAnnualInstallment;
 import com.example.bgoug.member.services.MemberService;
+import com.example.bgoug.recommended_members.entities.RecommendedMember;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -78,8 +88,101 @@ public class MemberController {
         return "base-layout";
     }
 
-    @GetMapping("add")
-    public String getAddMemberPage(Model model) {
+    @GetMapping("membersOfCompany")
+    public String getMembersOfCompanyPage(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member member = (Member) authentication.getPrincipal();
+//        Long memberId = memberView.getId();
+        List<MemberView> memberViews = this.memberService.findAllByCompany(member.getCompany());
+        model.addAttribute("members", memberViews);
+        model.addAttribute("view", "member/members-by-company");
+        return "base-layout";
+    }
+
+//    @GetMapping("add")
+//    public String getAddMemberPage(Model model) {
+//        List<CompanyView> companies = this.companyService.getAll();
+//        List<EventView> eventViews = this.eventService.getAllEvents();
+//        List<MemberView> memberViews = this.memberService.getAll();
+//        List<ApplicationView> applicationViews = this.applicationService.findAllApplications();
+//        model.addAttribute("applicationsList", applicationViews);
+//        model.addAttribute("membersViews", memberViews);
+//        model.addAttribute("events", eventViews);
+//        model.addAttribute("companies", companies);
+//        model.addAttribute("members", new MemberModel());
+//        model.addAttribute("view", "member/member-add");
+//        return "base-layout";
+//    }
+//
+//    @PostMapping("add")
+//    public String addMemberPage(@Valid @ModelAttribute MemberModel memberModel,
+//                                @RequestParam String companyName,
+//                                @RequestParam String memberType,
+//                                @RequestParam Boolean isPayed,
+//                                @RequestParam String event,
+//                                @RequestParam String recommendedName,
+//                                @RequestParam String pcPlatform,
+//                                @RequestParam List<String> applicationsList) {
+//
+//        Company companyModel = this.companyService.getCompanyByName(companyName);
+//        memberModel.setCompany(companyModel);
+//
+//        if (!(event.equals(""))){
+//            Event eventToPersist = this.eventService.getEventByName(event);
+//            memberModel.getEvents().add(eventToPersist);
+//        }
+//
+//        memberModel.setMemberType(memberType);
+//        memberModel.setMembershipFee(isPayed);
+//
+//        String value = PcPlatform.valueOf(pcPlatform).getKey();
+//        memberModel.setPcPlatform(value);
+//
+//        if (!(recommendedName.equals(""))) {
+//
+//            // find recommended member from database
+//            EditMemberModel recommendedMember = this.memberService.findMemberByName(recommendedName);
+//
+//            ModelMapper modelMapper = new ModelMapper();
+//
+//            //convert recommended member to member
+//            Member recommended = modelMapper.map(recommendedMember, Member.class);
+//
+//            // get all recommended Names from recommended member
+//            Set<String> recommendedMemberNames = recommended.getRecommendedMembers();
+//
+//            // add recommended member to currentModel
+//            memberModel.getRecommendedMembers().add(recommendedName);
+//
+//            // iterate over recommended names
+//            if (recommendedMemberNames.size() > 0) {
+//                for (String currentName : recommendedMemberNames) {
+//
+//                    EditMemberModel editMemberModel = this.memberService.findMemberByName(currentName);
+//                    this.memberService.update(editMemberModel);
+//                    memberModel.getRecommendedMembers().add(currentName);
+//                }
+//                this.memberService.update(recommendedMember);
+//            } else {
+//
+//                this.memberService.update(recommendedMember);
+//            }
+//        }
+//
+//        for (String currentApplication : applicationsList) {
+//            Application application = this.applicationService.findApplicationByName(currentApplication);
+//            memberModel.getApplications().add(application);
+//        }
+//
+//        this.memberService.persist(memberModel);
+//
+//        return "redirect:/member/all";
+//
+//    }
+
+
+    @GetMapping("register")
+    public String getAddMemberPage(@ModelAttribute MemberModel memberModel, Model model) {
         List<CompanyView> companies = this.companyService.getAll();
         List<EventView> eventViews = this.eventService.getAllEvents();
         List<MemberView> memberViews = this.memberService.getAll();
@@ -88,25 +191,41 @@ public class MemberController {
         model.addAttribute("membersViews", memberViews);
         model.addAttribute("events", eventViews);
         model.addAttribute("companies", companies);
-        model.addAttribute("members", new MemberModel());
+//        model.addAttribute("members", new MemberModel());
         model.addAttribute("view", "member/member-add");
         return "base-layout";
     }
 
-    @PostMapping("add")
+    @PostMapping("register")
     public String addMemberPage(@Valid @ModelAttribute MemberModel memberModel,
+                                BindingResult bindingResult,
+                                Model model,
                                 @RequestParam String companyName,
                                 @RequestParam String memberType,
                                 @RequestParam Boolean isPayed,
                                 @RequestParam String event,
-                                @RequestParam String recommendedName,
+//                                @RequestParam String recommendedName,
+                                @RequestParam(required = false) Long id,
                                 @RequestParam String pcPlatform,
                                 @RequestParam List<String> applicationsList) {
+
+        if (bindingResult.hasErrors()) {
+            List<CompanyView> companies = this.companyService.getAll();
+            List<EventView> eventViews = this.eventService.getAllEvents();
+            List<MemberView> memberViews = this.memberService.getAll();
+            List<ApplicationView> applicationViews = this.applicationService.findAllApplications();
+            model.addAttribute("applicationsList", applicationViews);
+            model.addAttribute("membersViews", memberViews);
+            model.addAttribute("events", eventViews);
+            model.addAttribute("companies", companies);
+            model.addAttribute("view", "/member/member-add");
+            return "base-layout";
+        }
 
         Company companyModel = this.companyService.getCompanyByName(companyName);
         memberModel.setCompany(companyModel);
 
-        if (!(event.equals(""))){
+        if (!(event.equals(""))) {
             Event eventToPersist = this.eventService.getEventByName(event);
             memberModel.getEvents().add(eventToPersist);
         }
@@ -117,35 +236,44 @@ public class MemberController {
         String value = PcPlatform.valueOf(pcPlatform).getKey();
         memberModel.setPcPlatform(value);
 
-        if (!(recommendedName.equals(""))) {
+        if (id != null) {
 
             // find recommended member from database
-            EditMemberModel recommendedMember = this.memberService.findMemberByName(recommendedName);
+            EditMemberModel editMemberModel = this.memberService.findMemberById(id);
+
 
             ModelMapper modelMapper = new ModelMapper();
-
+//
             //convert recommended member to member
-            Member recommended = modelMapper.map(recommendedMember, Member.class);
+//            Member recommended = modelMapper.map(recommendedMember, Member.class);
+
+            RecommendedMember recommendedMember = new RecommendedMember();
+            Member member = modelMapper.map(memberModel, Member.class);
+//            recommendedMember.setId(editMemberModel.getId());
+            recommendedMember.setName(editMemberModel.getName());
+//            recommendedMember.getMembers().add(member);
+
+            memberModel.getRecommendedMembers().add(recommendedMember);
 
             // get all recommended Names from recommended member
-            Set<String> recommendedMemberNames = recommended.getRecommendedMembers();
+//            Set<RecommendedMember> recommendedMemberNames = recommended.getRecommendedMembers();
 
             // add recommended member to currentModel
-            memberModel.getRecommendedMembers().add(recommendedName);
+//            memberModel.getRecommendedMembers().add(recommendedName);
 
             // iterate over recommended names
-            if (recommendedMemberNames.size() > 0) {
-                for (String currentName : recommendedMemberNames) {
-
-                    EditMemberModel editMemberModel = this.memberService.findMemberByName(currentName);
-                    this.memberService.update(editMemberModel);
-                    memberModel.getRecommendedMembers().add(currentName);
-                }
-                this.memberService.update(recommendedMember);
-            } else {
-
-                this.memberService.update(recommendedMember);
-            }
+//            if (recommendedMemberNames.size() > 0) {
+//                for (RecommendedMember currentName : recommendedMemberNames) {
+//
+////                    EditMemberModel editMemberModel = this.memberService.findMemberByName();
+////                    this.memberService.update(editMemberModel);
+//                    memberModel.getRecommendedMembers().add(currentName);
+//                }
+//                this.memberService.update(recommendedMember);
+//            } else {
+//
+//                this.memberService.update(recommendedMember);
+//            }
         }
 
         for (String currentApplication : applicationsList) {
@@ -158,6 +286,86 @@ public class MemberController {
         return "redirect:/member/all";
 
     }
+
+//    @PostMapping("register")
+//    public String addMemberPage(@Valid @ModelAttribute MemberModel memberModel,
+//                                BindingResult bindingResult,
+//                                Model model,
+//                                @RequestParam String companyName,
+//                                @RequestParam String memberType,
+//                                @RequestParam Boolean isPayed,
+//                                @RequestParam String event,
+//                                @RequestParam String recommendedName,
+//                                @RequestParam String pcPlatform,
+//                                @RequestParam List<String> applicationsList) {
+//
+//        if (bindingResult.hasErrors()) {
+//            List<CompanyView> companies = this.companyService.getAll();
+//            List<EventView> eventViews = this.eventService.getAllEvents();
+//            List<MemberView> memberViews = this.memberService.getAll();
+//            List<ApplicationView> applicationViews = this.applicationService.findAllApplications();
+//            model.addAttribute("applicationsList", applicationViews);
+//            model.addAttribute("membersViews", memberViews);
+//            model.addAttribute("events", eventViews);
+//            model.addAttribute("companies", companies);
+//            model.addAttribute("view", "/member/member-add");
+//            return "base-layout";
+//        }
+//
+//        Company companyModel = this.companyService.getCompanyByName(companyName);
+//        memberModel.setCompany(companyModel);
+//
+//        if (!(event.equals(""))) {
+//            Event eventToPersist = this.eventService.getEventByName(event);
+//            memberModel.getEvents().add(eventToPersist);
+//        }
+//
+//        memberModel.setMemberType(memberType);
+//        memberModel.setMembershipFee(isPayed);
+//
+//        String value = PcPlatform.valueOf(pcPlatform).getKey();
+//        memberModel.setPcPlatform(value);
+//
+//        if (!(recommendedName.equals(""))) {
+//
+//            // find recommended member from database
+//            EditMemberModel recommendedMember = this.memberService.findMemberByName(recommendedName);
+//
+//            ModelMapper modelMapper = new ModelMapper();
+//
+//            //convert recommended member to member
+//            Member recommended = modelMapper.map(recommendedMember, Member.class);
+//
+//            // get all recommended Names from recommended member
+//            Set<String> recommendedMemberNames = recommended.getRecommendedMembers();
+//
+//            // add recommended member to currentModel
+//            memberModel.getRecommendedMembers().add(recommendedName);
+//
+//            // iterate over recommended names
+//            if (recommendedMemberNames.size() > 0) {
+//                for (String currentName : recommendedMemberNames) {
+//
+//                    EditMemberModel editMemberModel = this.memberService.findMemberByName(currentName);
+//                    this.memberService.update(editMemberModel);
+//                    memberModel.getRecommendedMembers().add(currentName);
+//                }
+//                this.memberService.update(recommendedMember);
+//            } else {
+//                this.memberService.update(recommendedMember);
+//            }
+//        }
+//
+//        for (String currentApplication : applicationsList) {
+//            Application application = this.applicationService.findApplicationByName(currentApplication);
+//            memberModel.getApplications().add(application);
+//        }
+//
+//        this.memberService.persist(memberModel);
+//
+//        return "redirect:/member/all";
+//
+//    }
 
     @GetMapping("/orderByInstallment")
     public String getMemberAnnualInstallmentView(Model model) {
@@ -176,5 +384,42 @@ public class MemberController {
         model.addAttribute("view", "/member/member-table-annual-installment");
         return "base-layout";
 
+    }
+
+    @GetMapping("login")
+    public String getLoginPage(Model model, @RequestParam(required = false) String error) {
+        if (error != null) {
+            model.addAttribute("error", Error.INVALID_CREDENTIALS);
+        }
+        model.addAttribute("view", "login");
+        return "base-layout";
+    }
+
+//    @PostMapping("login")
+//    public String postLoginPage(@ModelAttribute MemberLogin memberLogin
+//            , RedirectAttributes redirectAttributes, HttpSession httpSession) {
+//
+//        LoggedMember member = this.memberService
+//                .findByUsernameAndPassword(memberLogin.getUsername(), memberLogin.getPassword());
+//
+////        if (member == null){
+////            redirectAttributes.addAttribute("view", "login");
+////            return "redirect:base-layout";
+////        }
+//
+//        httpSession.setAttribute("member", member);
+//        return "base-layout";
+//    }
+
+    @GetMapping("member")
+    public String getMemberPage(Principal principal) {
+        System.out.println(principal.getName());
+        return "member";
+    }
+
+    @GetMapping("admin")
+    public String getAdminPage() {
+
+        return "admin";
     }
 }

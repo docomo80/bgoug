@@ -3,14 +3,17 @@ package com.example.bgoug.events.repositories;
 import com.example.bgoug.events.entities.Event;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
 
     Event findEventByName(String name);
+
 
 //    get all events, companies, members and comments
     @Query(value = "SELECT e.id,\n" +
@@ -31,4 +34,19 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<Object[]> getSortedEventsByCompanies();
 
 
+//    get events by date for graph
+    @Query(value = "SELECT \n" +
+            "          e.NAME,\n" +
+            "          e.DATE,\n" +
+            "          COUNT(distinct c.id) AS count_companies,\n" +
+            "          COUNT(distinct m.id) AS count_member,\n" +
+            "          COUNT(distinct comm.id) AS count_comment\n" +
+            "           FROM event AS e\n" +
+            "            LEFT JOIN members_event AS me ON e.id = me.event_id\n" +
+            "            LEFT JOIN member AS m ON m.id = me.member_id\n" +
+            "            LEFT JOIN company AS c ON c.id = m.company_id\n" +
+            "            LEFT JOIN comment AS comm ON comm.event_id = e.id\n" +
+            "            WHERE YEAR(e.DATE)= :date\n" +
+            "            GROUP BY e.id", nativeQuery = true)
+    List<Object[]> getEventByDate(@Param("date") String date);
 }

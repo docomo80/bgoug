@@ -12,4 +12,10 @@ public class HomeController {
         model.addAttribute("view", "home");
         return "base-layout";
     }
+
+    @GetMapping("unauthorized")
+    public String getUnauthorizedHomePage(Model model){
+        model.addAttribute("view", "unauthorized");
+        return "base-layout";
+    }
 }

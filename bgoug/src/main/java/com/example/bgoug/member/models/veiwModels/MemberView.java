@@ -1,8 +1,11 @@
 package com.example.bgoug.member.models.veiwModels;
 
+import com.example.bgoug.company.entities.Company;
 import com.example.bgoug.member.enums.MemberType;
 
 public class MemberView {
+
+    private Long id;
 
     private String name;
 
@@ -15,6 +18,8 @@ public class MemberView {
     private MemberType memberType;
 
     private Boolean membershipFee;
+
+    private Company company;
 
     public String getName() {
         return name;
@@ -64,4 +69,19 @@ public class MemberView {
         this.memberType = memberType;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
 }

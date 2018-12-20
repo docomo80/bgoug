@@ -16,4 +16,6 @@ public interface EventService {
 
     List<Object[]> getSortedEventsByCompanies();
 
+    List<Object[]> getEventByDate(String date);
+
 }

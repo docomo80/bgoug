@@ -1,4 +1,4 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <link href="/css/home.css" rel="stylesheet" type="text/css"/>
 
 <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
@@ -14,9 +14,9 @@
     </div>
 
     <!-- Second Container -->
-    <div class="container-fluid bg-2 text-center">
+    <div class="container-fluid bg-2 text-center" >
         <h1 class="margin">За нас</h1>
-        <h3>
+        <h3 >
             Българската Група на Потребителите на ORACLE e дружество, което работи на доброволни начала.
 
             Неговите членове имат основна цел да подпомогнат създаването на подходяща среда за обмен на знания и
@@ -38,7 +38,7 @@
                 <img src="https://www.astaspice.org/wordpress/wp-content/uploads/2014/01/shutterstock_76800454.jpg"
                      class="img-responsive margin" style="width:100%" alt="Image">
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4" sec:authorize="authenticated">
                 <!--<p>Събития</p>-->
                 <a th:href="@{/events/all}" class="btn btn-default btn-lg">
                     <span class="glyphicon glyphicon-search"></span> Събития
