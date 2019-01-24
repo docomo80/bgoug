@@ -14,8 +14,6 @@ import com.example.bgoug.member.entities.Member;
 import com.example.bgoug.member.enums.MemberType;
 import com.example.bgoug.member.enums.PcPlatform;
 import com.example.bgoug.member.models.bindingModels.EditMemberModel;
-import com.example.bgoug.member.models.bindingModels.LoggedMember;
-import com.example.bgoug.member.models.bindingModels.MemberLogin;
 import com.example.bgoug.member.models.bindingModels.MemberModel;
 import com.example.bgoug.member.models.veiwModels.MemberView;
 import com.example.bgoug.member.models.veiwModels.MemberViewAnnualInstallment;
@@ -29,14 +27,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("member")
@@ -367,15 +362,34 @@ public class MemberController {
 //
 //    }
 
+//    @GetMapping("/orderByInstallment")
+//    public String getMemberAnnualInstallmentView(Model model) {
+//        List<Object[]> objects = this.memberService.findAllMembersByDiscount();
+//        List<MemberViewAnnualInstallment> memberViewAnnualInstallments = new ArrayList<>();
+//        for (Object[] object : objects) {
+//            String nameOfCompany = (String) object[0];
+//            double installment = ((Number) object[1]).doubleValue();
+//            MemberViewAnnualInstallment annualInstallment = new MemberViewAnnualInstallment();
+//            annualInstallment.setName(nameOfCompany);
+//            annualInstallment.setAnnualInstallment(installment);
+//            memberViewAnnualInstallments.add(annualInstallment);
+//        }
+//
+//        model.addAttribute("members", memberViewAnnualInstallments);
+//        model.addAttribute("view", "/member/member-table-annual-installment");
+//        return "base-layout";
+//
+//    }
+
     @GetMapping("/orderByInstallment")
     public String getMemberAnnualInstallmentView(Model model) {
         List<Object[]> objects = this.memberService.findAllMembersByDiscount();
         List<MemberViewAnnualInstallment> memberViewAnnualInstallments = new ArrayList<>();
         for (Object[] object : objects) {
-            String nameOfCompany = (String) object[0];
-            double installment = ((Number) object[1]).doubleValue();
+            String name = (String) object[2];
+            double installment = ((Number) object[0]).doubleValue();
             MemberViewAnnualInstallment annualInstallment = new MemberViewAnnualInstallment();
-            annualInstallment.setName(nameOfCompany);
+            annualInstallment.setName(name);
             annualInstallment.setAnnualInstallment(installment);
             memberViewAnnualInstallments.add(annualInstallment);
         }

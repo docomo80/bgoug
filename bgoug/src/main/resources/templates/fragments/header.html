@@ -37,7 +37,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                                 <a class="nav-link" href="/member/register">Регистрация</a>
                             </li>
                             <li class="nav-item"  th:if="${#request.isUserInRole('ADMIN')} or ${#request.isUserInRole('USER')}" >
-                                <a class="nav-link" href="/logout">Отписване </a>
+                                <a class="nav-link" href="/logout">Отписване</a>
                             </li>
                         </th:block>
                     </th:block>
