@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               5.7.16-log - MySQL Community Server (GPL)
+-- Server version:               8.0.13 - MySQL Community Server - GPL
 -- Server OS:                    Win64
--- HeidiSQL Version:             9.5.0.5327
+-- HeidiSQL Version:             9.5.0.5453
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `member` (
   CONSTRAINT `FKax2gealrg44mnq3ibas3q9de6` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
--- Dumping data for table bgoug_test.member: ~0 rows (approximately)
+-- Dumping data for table bgoug_test.member: ~6 rows (approximately)
 /*!40000 ALTER TABLE `member` DISABLE KEYS */;
 INSERT INTO `member` (`id`, `account_non_expired`, `account_non_locked`, `address`, `credentials_non_expired`, `discount`, `enabled`, `member_type`, `membership_fee`, `name`, `password`, `pc_platform`, `position`, `telephone_number`, `username`, `company_id`) VALUES
 	(1, b'1', b'1', '87 Woodbine Street', b'1', 0, b'1', 'INDIVIDUAL', b'1', 'Веселин Сариев', '$2a$10$DYU7yxl8TeNOV7D9I98l7OxOpPZzoe7YKlC/OcMmFVo1eMB6V68LO', '004', 'developer', '07404085495', 'docomo', 6),
@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `members_applications` (
   CONSTRAINT `FKt4douwqpmf9k0sfui9qewjeqb` FOREIGN KEY (`application_id`) REFERENCES `application` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table bgoug_test.members_applications: ~0 rows (approximately)
+-- Dumping data for table bgoug_test.members_applications: ~10 rows (approximately)
 /*!40000 ALTER TABLE `members_applications` DISABLE KEYS */;
 INSERT INTO `members_applications` (`member_id`, `application_id`) VALUES
 	(2, 1),
@@ -159,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `members_event` (
   CONSTRAINT `FKu4lhgi6bn9l756mjvek3d3uo` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table bgoug_test.members_event: ~0 rows (approximately)
+-- Dumping data for table bgoug_test.members_event: ~6 rows (approximately)
 /*!40000 ALTER TABLE `members_event` DISABLE KEYS */;
 INSERT INTO `members_event` (`member_id`, `event_id`) VALUES
 	(1, 1),
@@ -180,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `members_recommended_members` (
   CONSTRAINT `FKs8mkn1yf6eko9iv6dxtnvb75d` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table bgoug_test.members_recommended_members: ~0 rows (approximately)
+-- Dumping data for table bgoug_test.members_recommended_members: ~4 rows (approximately)
 /*!40000 ALTER TABLE `members_recommended_members` DISABLE KEYS */;
 INSERT INTO `members_recommended_members` (`member_id`, `recommended_member_id`) VALUES
 	(2, 1),
@@ -199,7 +199,7 @@ CREATE TABLE IF NOT EXISTS `members_roles` (
   CONSTRAINT `FKtcx440qhb934tihsb7vddbvy4` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table bgoug_test.members_roles: ~0 rows (approximately)
+-- Dumping data for table bgoug_test.members_roles: ~6 rows (approximately)
 /*!40000 ALTER TABLE `members_roles` DISABLE KEYS */;
 INSERT INTO `members_roles` (`member_id`, `role_id`) VALUES
 	(1, 1),
@@ -217,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `recommended_members` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
--- Dumping data for table bgoug_test.recommended_members: ~0 rows (approximately)
+-- Dumping data for table bgoug_test.recommended_members: ~4 rows (approximately)
 /*!40000 ALTER TABLE `recommended_members` DISABLE KEYS */;
 INSERT INTO `recommended_members` (`id`, `name`) VALUES
 	(1, 'Веселин Сариев'),
@@ -233,7 +233,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
--- Dumping data for table bgoug_test.roles: ~0 rows (approximately)
+-- Dumping data for table bgoug_test.roles: ~6 rows (approximately)
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
 INSERT INTO `roles` (`id`, `authority`) VALUES
 	(1, 'ROLE_ADMIN'),
