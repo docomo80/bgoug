@@ -10,7 +10,7 @@ public class BgougApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(BgougApplication.class, args);
-
+//        System.out.println(org.hibernate.Version.getVersionString());
     }
 
     @Bean

@@ -17,6 +17,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -29,6 +31,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+//    EntityManager entityManager;
 
     @Override
     public void persist(MemberModel memberModel) {
@@ -92,6 +96,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<Object[]> findAllMembersByDiscount() {
+
         List<Object[]> objects = this.memberRepository.findAllMembersByDiscount();
         return objects;
     }
@@ -123,6 +128,15 @@ public class MemberServiceImpl implements MemberService {
         return memberViewList;
     }
 
+    @Override
+    public EditMemberModel findMemberById(Long id) {
+        Member member = this.memberRepository.findMemberById(id);
+
+        ModelMapper modelMapper = new ModelMapper();
+        EditMemberModel memberModel = modelMapper.map(member, EditMemberModel.class);
+
+        return memberModel;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

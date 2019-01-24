@@ -3,6 +3,7 @@ package com.example.bgoug.member.entities;
 import com.example.bgoug.application.entities.Application;
 import com.example.bgoug.company.entities.Company;
 import com.example.bgoug.events.entities.Event;
+import com.example.bgoug.recommended_members.entities.RecommendedMember;
 import com.example.bgoug.role.Role;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -50,7 +51,9 @@ public class Member implements UserDetails {
 
     private Set<Event> events;
 
-    private Set<String> recommendedMembers;
+//    private Set<String> recommendedMembers;
+
+    private Set<RecommendedMember> recommendedMembers;
 
     private Set<Role> authorities;
 
@@ -68,7 +71,7 @@ public class Member implements UserDetails {
         this.id = id;
     }
 
-    @Column(unique = true)
+//    @Column(unique = true)
     public String getName() {
         return name;
     }
@@ -169,14 +172,14 @@ public class Member implements UserDetails {
         this.events = events;
     }
 
-    @ElementCollection
-    public Set<String> getRecommendedMembers() {
-        return recommendedMembers;
-    }
+//    @ElementCollection
+//    public Set<String> getRecommendedMembers() {
+//        return recommendedMembers;
+//    }
 
-    public void setRecommendedMembers(Set<String> recommendedMembers) {
-        this.recommendedMembers = recommendedMembers;
-    }
+//    public void setRecommendedMembers(Set<String> recommendedMembers) {
+//        this.recommendedMembers = recommendedMembers;
+//    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -243,5 +246,17 @@ public class Member implements UserDetails {
 
     public void setAuthorities(Set<Role> authorities) {
         this.authorities = authorities;
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "members_recommendedMembers",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "recommended_member_id", referencedColumnName = "id"))
+    public Set<RecommendedMember> getRecommendedMembers() {
+        return recommendedMembers;
+    }
+
+    public void setRecommendedMembers(Set<RecommendedMember> recommendedMembers) {
+        this.recommendedMembers = recommendedMembers;
     }
 }

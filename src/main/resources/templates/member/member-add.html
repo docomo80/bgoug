@@ -10,39 +10,46 @@
                     <div class="form-group row" th:classappend="${#fields.hasErrors('name')} ? 'has-danger'">
                         <label class="form-control-label" for="name">Име</label>
                         <input type="text" class="form-control" id="name" th:field="*{name}"/>
-                        <div class="form-control-feedback" th:each="error: ${#fields.errors('name')}" th:text="${error}"></div>
+                        <div class="form-control-feedback" th:each="error: ${#fields.errors('name')}"
+                             th:text="${error}"></div>
                     </div>
                     <div class="form-group row" th:classappend="${#fields.hasErrors('username')} ? 'has-danger'">
                         <label class="form-control-label" for="inputUsername">Потребител</label>
                         <input type="text" class="form-control" id="inputUsername" th:field="*{username}" required/>
-                        <div class="form-control-feedback" th:each="error: ${#fields.errors('username')}" th:text="${error}"></div>
+                        <div class="form-control-feedback" th:each="error: ${#fields.errors('username')}"
+                             th:text="${error}"></div>
                     </div>
                     <div class="form-group row" th:classappend="${#fields.hasErrors('password')} ? 'has-danger'">
                         <label class="form-control-label">Парола</label>
                         <input type="password" class="form-control" th:field="*{password}" required/>
-                        <div class="form-control-feedback" th:each="error: ${#fields.errors('password')}" th:text="${error}"></div>
+                        <div class="form-control-feedback" th:each="error: ${#fields.errors('password')}"
+                             th:text="${error}"></div>
                     </div>
                     <div class="form-group row" th:classappend="${#fields.hasErrors('global')} ? 'has-danger'">
                         <label class="form-control-label">Потвърдете паролата</label>
                         <input type="password" class="form-control" th:field="*{conformedPassword}" required/>
-                        <div class="form-control-feedback" th:each="error:${#fields.errors('global')}" th:text="${error}"></div>
+                        <div class="form-control-feedback" th:each="error:${#fields.errors('global')}"
+                             th:text="${error}"></div>
                     </div>
                     <div class="form-group row" th:classappend="${#fields.hasErrors('address')} ? 'has-danger'">
                         <label class="form-control-label">Адрес</label>
                         <input type="text" class="form-control" th:field="*{address}" required/>
-                        <div class="form-control-feedback" th:each="error: ${#fields.errors('address')}" th:text="${error}"></div>
+                        <div class="form-control-feedback" th:each="error: ${#fields.errors('address')}"
+                             th:text="${error}"></div>
 
                     </div>
                     <div class="form-group row" th:classappend="${#fields.hasErrors('position')} ? 'has-danger'">
                         <label class="form-control-label">Длъжност</label>
                         <input type="text" class="form-control" th:field="*{position}" required/>
-                        <div class="form-control-feedback" th:each="error: ${#fields.errors('position')}" th:text="${error}"></div>
+                        <div class="form-control-feedback" th:each="error: ${#fields.errors('position')}"
+                             th:text="${error}"></div>
 
                     </div>
                     <div class="form-group row" th:classappend="${#fields.hasErrors('telephoneNumber')} ? 'has-danger'">
                         <label class="form-control-label">телефонен номер</label>
                         <input type="number" class="form-control" th:field="*{telephoneNumber}" required/>
-                        <div class="form-control-feedback" th:each="error: ${#fields.errors('telephoneNumber')}" th:text="${error}"></div>
+                        <div class="form-control-feedback" th:each="error: ${#fields.errors('telephoneNumber')}"
+                             th:text="${error}"></div>
 
                     </div>
                     <div class="form-group row">
@@ -68,7 +75,7 @@
 
                     <div class="form-group row">
                         <label class="form-control-label">За коя компания работите? </label>
-                        <select  class="form-control" name="companyName" required>
+                        <select class="form-control" name="companyName" required>
                             <option value="">Моля изберете</option>
                             <option th:each="company : ${companies}" th:value="${company.name}"
                                     th:text="${company.name}"></option>
@@ -100,16 +107,16 @@
                         <select class="form-control" name="applicationsList" multiple="multiple" required>
                             <option value="">Моля изберете</option>
                             <option th:each="currentApplication : ${applicationsList}"
-                                         th:value="${currentApplication.name}"
-                                         th:text="${currentApplication.name}"></option>
+                                    th:value="${currentApplication.name}"
+                                    th:text="${currentApplication.name}"></option>
                         </select>
                     </div>
                     <div class="form-group row">
                         <label class="form-control-label">Имате ли препоръка? </label>
-                        <select class="form-control" name="recommendedName">
+                        <select class="form-control" name="id" >
                             <option value="">Моля изберете</option>
-                            <option th:each="member : ${membersViews}" th:value="${member.name}"
-                                    th:text="${member.name}"></option>
+                            <option th:each="member : ${membersViews}" th:value="${member.id}"
+                                    th:text="${member.name}" ></option>
                         </select>
                     </div>
                     <input type="submit" class="btn btn-outline-warning btn-lg btn-block"

@@ -4,7 +4,9 @@ import com.example.bgoug.annotation.IsPasswordMatching;
 import com.example.bgoug.application.entities.Application;
 import com.example.bgoug.company.entities.Company;
 import com.example.bgoug.events.entities.Event;
+import com.example.bgoug.recommended_members.entities.RecommendedMember;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,6 +17,7 @@ public class MemberModel {
     @Size(min = 4, message = "Името трябва да съдържа поне 4 символа")
     private String name;
 
+    @Column(unique = true)
     @Size(min = 6, max = 12, message = "Потребителя трябва да съдържа поне 6 символа")
     private String username;
 
@@ -46,7 +49,9 @@ public class MemberModel {
 
     private Set<Event> events;
 
-    private Set<String> recommendedMembers;
+    private Set<RecommendedMember> recommendedMembers;
+
+//    private Set<String> recommendedMembers;
 
     public MemberModel() {
         this.events = new HashSet<>();
@@ -150,14 +155,22 @@ public class MemberModel {
         this.pcPlatform = pcPlatform;
     }
 
-    public Set<String> getRecommendedMembers() {
+//    public Set<String> getRecommendedMembers() {
+//        return recommendedMembers;
+//    }
+//
+//    public void setRecommendedMembers(Set<String> recommendedMembers) {
+//        this.recommendedMembers = recommendedMembers;
+//    }
+
+
+    public Set<RecommendedMember> getRecommendedMembers() {
         return recommendedMembers;
     }
 
-    public void setRecommendedMembers(Set<String> recommendedMembers) {
+    public void setRecommendedMembers(Set<RecommendedMember> recommendedMembers) {
         this.recommendedMembers = recommendedMembers;
     }
-
 
     public String getUsername() {
         return username;
