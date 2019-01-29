@@ -87,12 +87,23 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void update(EditMemberModel editMemberModel) {
-
-        int discount = editMemberModel.getDiscount();
-
-        this.memberRepository.update(discount + 1, editMemberModel.getId());
+    public void dropFunctionIfExist() {
+        this.memberRepository.dropFunctionIfExist();
     }
+
+    @Override
+    public void createFunctionForDiscount() {
+        this.memberRepository.createFunctionForDiscount();
+    }
+
+//    @Override
+//    public void update(EditMemberModel editMemberModel) {
+//
+//        int discount = editMemberModel.getDiscount();
+//
+//        this.memberRepository.update(discount + 1, editMemberModel.getId());
+//    }
+
 
     @Override
     public List<Object[]> findAllMembersByDiscount() {

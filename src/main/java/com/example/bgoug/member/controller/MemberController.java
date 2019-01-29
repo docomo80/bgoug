@@ -383,11 +383,13 @@ public class MemberController {
 
     @GetMapping("/orderByInstallment")
     public String getMemberAnnualInstallmentView(Model model) {
+        this.memberService.dropFunctionIfExist();
+        this.memberService.createFunctionForDiscount();
         List<Object[]> objects = this.memberService.findAllMembersByDiscount();
         List<MemberViewAnnualInstallment> memberViewAnnualInstallments = new ArrayList<>();
         for (Object[] object : objects) {
-            String name = (String) object[2];
-            double installment = ((Number) object[0]).doubleValue();
+            double installment = ((Number) object[2]).doubleValue();
+            String name = String.valueOf(object[0]);
             MemberViewAnnualInstallment annualInstallment = new MemberViewAnnualInstallment();
             annualInstallment.setName(name);
             annualInstallment.setAnnualInstallment(installment);

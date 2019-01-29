@@ -19,9 +19,12 @@ public interface MemberService extends UserDetailsService {
 
     EditMemberModel findMemberByName(String name);
 
-    void update(EditMemberModel editMemberModel);
+    //    void update(EditMemberModel editMemberModel);
+    void dropFunctionIfExist();
 
-//    @PreAuthorize("hasRole('ADMIN')")
+    void createFunctionForDiscount();
+
+    //    @PreAuthorize("hasRole('ADMIN')")
     List<Object[]> findAllMembersByDiscount();
 
     LoggedMember findByUsernameAndPassword(String username, String password);

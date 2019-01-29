@@ -29,7 +29,7 @@ public class Member implements UserDetails {
 
     private String telephoneNumber;
 
-    private int discount;
+//    private int discount;
 
     private String memberType;
 
@@ -117,13 +117,13 @@ public class Member implements UserDetails {
         return membershipFee;
     }
 
-    public int getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(int discount) {
-        this.discount = discount;
-    }
+//    public int getDiscount() {
+//        return discount;
+//    }
+//
+//    public void setDiscount(int discount) {
+//        this.discount = discount;
+//    }
 
     public void setMembershipFee(Boolean membershipFee) {
         this.membershipFee = membershipFee;
