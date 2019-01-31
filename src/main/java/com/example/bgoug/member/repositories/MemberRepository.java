@@ -2,15 +2,12 @@ package com.example.bgoug.member.repositories;
 
 import com.example.bgoug.company.entities.Company;
 import com.example.bgoug.member.entities.Member;
-import org.apache.catalina.User;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 @Repository

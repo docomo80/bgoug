@@ -4,43 +4,43 @@ xmlns:th="http://www.thymeleaf.org"
 xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <header>
     <nav class="navbar navbar-inverse bg-inverse">
-        <div class="container">
+        <div class="container" >
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="/" sec:authentication="isAuthenticated()">BGOUG</a>
+            <a class="navbar-brand" href="/" >BGOUG</a>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent" >
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item" th:if="(${#request.isUserInRole('ADMIN')})">
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                         <a class="nav-link" th:href="@{/member/all}" >Членове</a>
                     </li>
-                    <li class="nav-item" th:if="(${#request.isUserInRole('USER')})">
+                    <li class="nav-item" sec:authorize="hasRole('USER')">
                         <a class="nav-link" th:href="@{/member/membersOfCompany}">Членове</a>
                     </li>
-                    <li class="nav-item" th:if="(${#request.isUserInRole('ADMIN')})">
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                         <a class="nav-link" th:href="@{/events/all}">Събития</a>
                     </li>
-                    <li class="nav-item" th:if="(${#request.isUserInRole('ADMIN')})">
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                         <a class="nav-link" th:href="@{/companies/all}">Компании</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
-                    <th:block th:switch="${session.member}">
-                        <th:block th:case="null">
-                            <li class="nav-item" th:if="!(${#request.isUserInRole('ADMIN')} or ${#request.isUserInRole('USER')})">
+                    <!--<th:block th:switch="${session.member}">-->
+                        <!--<th:block th:case="null">-->
+                            <li class="nav-item" sec:authorize="isAnonymous()">
                                 <a class="nav-link" href="/member/login">Влез</a>
                             </li>
-                            <li class="nav-item" th:if="!(${#request.isUserInRole('ADMIN')} or ${#request.isUserInRole('USER')})">
+                            <li class="nav-item" sec:authorize="isAnonymous()">
                                 <a class="nav-link" href="/member/register">Регистрация</a>
                             </li>
-                            <li class="nav-item"  th:if="${#request.isUserInRole('ADMIN')} or ${#request.isUserInRole('USER')}" >
+                            <li class="nav-item"  sec:authorize="isAuthenticated()" >
                                 <a class="nav-link" href="/logout">Отписване</a>
                             </li>
-                        </th:block>
-                    </th:block>
+                        <!--</th:block>-->
+                    <!--</th:block>-->
                 </ul>
             </div>
         </div>
