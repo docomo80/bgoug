@@ -83,7 +83,7 @@ public interface MemberRepository extends CrudRepository<Member, Long> {
             "select m.name, @subTreeId \\:= m.id,(60.00 -(select count(member_id)\n" +
             "        FROM members_recommended_members as mrm\n" +
             "        WHERE isSubElement(@subTreeId, member_id) = 1\n" +
-            "           OR recommended_member_id = @subTreeId)) as discount, (@subTreeId \\:= @subTreeId + 1) as count\n" +
+            "           OR recommended_member_id = @subTreeId)) as discount\n" +
 //            "       m.name\n" +
             "from member as m", nativeQuery = true)
     List<Object[]> findAllMembersByDiscount();
