@@ -145,19 +145,10 @@ public class EventController {
 
         }
 
-
-        //first, add the regional sales
-//        Integer northeastSales = 17089;
-//        Integer westSales = 10603;
-//        Integer midwestSales = 1223;
-//        Integer southSales = 10111;
-
         model.addAttribute("countOfCompanies", countOfCompanies);
         model.addAttribute("countOfMembers", countOfMembers);
         model.addAttribute("countOfComments", countOfComments);
-//        model.addAttribute("westSales", westSales);
 
-        //now add sales by lure type
         List<Integer> companies = Arrays.asList(
                 countCompaniesFromSixteenth,
                 countCompaniesFromSeventeenth,

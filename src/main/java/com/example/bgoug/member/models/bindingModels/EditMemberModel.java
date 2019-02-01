@@ -17,7 +17,7 @@ public class EditMemberModel {
 
     private String telephoneNumber;
 
-    private int discount;
+//    private int discount;
 
     private String memberType;
 
@@ -69,13 +69,13 @@ public class EditMemberModel {
         this.telephoneNumber = telephoneNumber;
     }
 
-    public int getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(int discount) {
-        this.discount = discount;
-    }
+//    public int getDiscount() {
+//        return discount;
+//    }
+//
+//    public void setDiscount(int discount) {
+//        this.discount = discount;
+//    }
 
     public String getMemberType() {
         return memberType;

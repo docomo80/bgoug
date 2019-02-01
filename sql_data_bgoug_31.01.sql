@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               8.0.13 - MySQL Community Server - GPL
 -- Server OS:                    Win64
--- HeidiSQL Version:             9.5.0.5453
+-- HeidiSQL Version:             10.1.0.5470
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -90,6 +90,32 @@ INSERT INTO `event` (`id`, `cost`, `date`, `description`, `location`, `name`) VA
 	(3, 4563, '2016-09-04 00:00:00', 'среща на членовете', 'Сандански', 'Среща през април');
 /*!40000 ALTER TABLE `event` ENABLE KEYS */;
 
+-- Dumping structure for function bgoug_test.isSubElement
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` FUNCTION `isSubElement`(rrecommended_member_id INT, mmember_id INT) RETURNS int(11)
+    READS SQL DATA
+    DETERMINISTIC
+BEGIN
+  DECLARE isChild,curId,curParent,lastParent int;
+  SET isChild = 0;
+  SET curId = mmember_id;
+  SET curParent = -1;
+  SET lastParent = -2;
+
+  WHILE lastParent <> curParent AND curParent <> 0 AND curId <> -1 AND curParent <> mmember_id AND isChild = 0 DO
+  SET lastParent = curParent;
+  SELECT recommended_member_id from members_recommended_members where member_id = curId limit 1 into curParent;
+
+  IF curParent = rrecommended_member_id THEN
+    SET isChild = 1;
+  END IF;
+  SET curId = curParent;
+  END WHILE ;
+
+  RETURN isChild;
+END//
+DELIMITER ;
+
 -- Dumping structure for table bgoug_test.member
 CREATE TABLE IF NOT EXISTS `member` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -97,7 +123,6 @@ CREATE TABLE IF NOT EXISTS `member` (
   `account_non_locked` bit(1) NOT NULL,
   `address` varchar(255) DEFAULT NULL,
   `credentials_non_expired` bit(1) NOT NULL,
-  `discount` int(11) NOT NULL,
   `enabled` bit(1) NOT NULL,
   `member_type` varchar(255) DEFAULT NULL,
   `membership_fee` bit(1) DEFAULT NULL,
@@ -111,17 +136,18 @@ CREATE TABLE IF NOT EXISTS `member` (
   PRIMARY KEY (`id`),
   KEY `FKax2gealrg44mnq3ibas3q9de6` (`company_id`),
   CONSTRAINT `FKax2gealrg44mnq3ibas3q9de6` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table bgoug_test.member: ~6 rows (approximately)
 /*!40000 ALTER TABLE `member` DISABLE KEYS */;
-INSERT INTO `member` (`id`, `account_non_expired`, `account_non_locked`, `address`, `credentials_non_expired`, `discount`, `enabled`, `member_type`, `membership_fee`, `name`, `password`, `pc_platform`, `position`, `telephone_number`, `username`, `company_id`) VALUES
-	(1, b'1', b'1', '87 Woodbine Street', b'1', 0, b'1', 'INDIVIDUAL', b'1', 'Веселин Сариев', '$2a$10$DYU7yxl8TeNOV7D9I98l7OxOpPZzoe7YKlC/OcMmFVo1eMB6V68LO', '004', 'developer', '07404085495', 'docomo', 6),
-	(2, b'1', b'1', '87 Woodbine Street', b'1', 0, b'1', 'INDIVIDUAL', b'0', 'Петя Ковачева', '$2a$10$owj6shgB5iwvFgrJqQCXDOuRT1sXxwuyj4CFE7ydyQkBAWgw/J/42', '002', 'developer', '07404085495', 'petito', 4),
-	(3, b'1', b'1', 'Perushtica 7', b'1', 0, b'1', 'CORPORATE', b'0', 'Мариян Николов', '$2a$10$QCsBmLLkDSH93Kow/.HYI..4LHsjGiBdGfaaoBHvBcwk0dZUIx5cS', '002', 'developer', '0878533500', 'marchelo', 7),
-	(4, b'1', b'1', '197 Whitehall Road', b'1', 0, b'1', 'INDIVIDUAL', b'0', 'Пенка Георгиева', '$2a$10$AbijatWo2iLkwUHlq/MF8e.gGSztoS.MNQLGy0wwFM.nheB8wvyp.', '004', 'back-end developer', '0896356457', 'penka82', 7),
-	(5, b'1', b'1', 'Perushtica 21', b'1', 0, b'1', 'INDIVIDUAL', b'0', 'Иван Тодоров', '$2a$10$yiXiqQA7UudmdvN9EJKtDeJTFPz6u2AOiCVUpOW321y5sGXUuRAtC', '005', 'front-end developer', '0878659874', 'vankata', 10),
-	(6, b'1', b'1', '189 Whitehall Road', b'1', 0, b'1', 'INDIVIDUAL', b'0', 'Вероника Стаменова', '$2a$10$d71GMREEJNKtcvp8JsuxMeXAm8JDopFSuRJ9Xx4ktwYah3qnVE1kG', '001', 'developer', '0878533589', 'ronito', 4);
+INSERT INTO `member` (`id`, `account_non_expired`, `account_non_locked`, `address`, `credentials_non_expired`, `enabled`, `member_type`, `membership_fee`, `name`, `password`, `pc_platform`, `position`, `telephone_number`, `username`, `company_id`) VALUES
+	(1, b'1', b'1', '87 Woodbine Street', b'1', b'1', 'INDIVIDUAL', b'1', 'Веселин Сариев', '$2a$10$DYU7yxl8TeNOV7D9I98l7OxOpPZzoe7YKlC/OcMmFVo1eMB6V68LO', '004', 'developer', '07404085495', 'docomo', 6),
+	(2, b'1', b'1', '87 Woodbine Street', b'1', b'1', 'INDIVIDUAL', b'0', 'Петя Ковачева', '$2a$10$owj6shgB5iwvFgrJqQCXDOuRT1sXxwuyj4CFE7ydyQkBAWgw/J/42', '002', 'developer', '07404085495', 'petito', 4),
+	(3, b'1', b'1', 'Perushtica 7', b'1', b'1', 'CORPORATE', b'0', 'Мариян Николов', '$2a$10$QCsBmLLkDSH93Kow/.HYI..4LHsjGiBdGfaaoBHvBcwk0dZUIx5cS', '002', 'developer', '0878533500', 'marchelo', 7),
+	(4, b'1', b'1', '197 Whitehall Road', b'1', b'1', 'INDIVIDUAL', b'0', 'Пенка Георгиева', '$2a$10$AbijatWo2iLkwUHlq/MF8e.gGSztoS.MNQLGy0wwFM.nheB8wvyp.', '004', 'back-end developer', '0896356457', 'penka82', 7),
+	(5, b'1', b'1', 'Perushtica 21', b'1', b'1', 'INDIVIDUAL', b'0', 'Иван Тодоров', '$2a$10$yiXiqQA7UudmdvN9EJKtDeJTFPz6u2AOiCVUpOW321y5sGXUuRAtC', '005', 'front-end developer', '0878659874', 'vankata', 10),
+	(6, b'1', b'1', '189 Whitehall Road', b'1', b'1', 'INDIVIDUAL', b'0', 'Вероника Стаменова', '$2a$10$d71GMREEJNKtcvp8JsuxMeXAm8JDopFSuRJ9Xx4ktwYah3qnVE1kG', '001', 'developer', '0878533589', 'ronito', 4),
+	(7, b'1', b'1', 'Плевен, ул. Берон №26', b'1', b'1', 'CORPORATE', b'1', 'Димитър Петков', '$2a$10$q79mWIoIAAVExYWb2H2Y0uhg0z3gqf86gB4Ka5MyevNkMqEUFOVtm', '004', 'QA developer', '07404085489', 'dimitar', 10);
 /*!40000 ALTER TABLE `member` ENABLE KEYS */;
 
 -- Dumping structure for table bgoug_test.members_applications
@@ -141,12 +167,15 @@ INSERT INTO `members_applications` (`member_id`, `application_id`) VALUES
 	(4, 1),
 	(5, 1),
 	(6, 1),
+	(7, 1),
 	(1, 2),
 	(2, 2),
 	(3, 2),
 	(4, 2),
 	(5, 2),
-	(6, 2);
+	(6, 2),
+	(7, 2),
+	(7, 3);
 /*!40000 ALTER TABLE `members_applications` ENABLE KEYS */;
 
 -- Dumping structure for table bgoug_test.members_event
@@ -186,7 +215,8 @@ INSERT INTO `members_recommended_members` (`member_id`, `recommended_member_id`)
 	(2, 1),
 	(3, 2),
 	(5, 3),
-	(6, 4);
+	(6, 4),
+	(7, 5);
 /*!40000 ALTER TABLE `members_recommended_members` ENABLE KEYS */;
 
 -- Dumping structure for table bgoug_test.members_roles
@@ -207,7 +237,8 @@ INSERT INTO `members_roles` (`member_id`, `role_id`) VALUES
 	(3, 3),
 	(4, 4),
 	(5, 5),
-	(6, 6);
+	(6, 6),
+	(7, 7);
 /*!40000 ALTER TABLE `members_roles` ENABLE KEYS */;
 
 -- Dumping structure for table bgoug_test.recommended_members
@@ -215,7 +246,7 @@ CREATE TABLE IF NOT EXISTS `recommended_members` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table bgoug_test.recommended_members: ~4 rows (approximately)
 /*!40000 ALTER TABLE `recommended_members` DISABLE KEYS */;
@@ -223,7 +254,8 @@ INSERT INTO `recommended_members` (`id`, `name`) VALUES
 	(1, 'Веселин Сариев'),
 	(2, 'Петя Ковачева'),
 	(3, 'Мариян Николов'),
-	(4, 'Пенка Георгиева');
+	(4, 'Пенка Георгиева'),
+	(5, 'Петя Ковачева');
 /*!40000 ALTER TABLE `recommended_members` ENABLE KEYS */;
 
 -- Dumping structure for table bgoug_test.roles
@@ -231,7 +263,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `authority` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table bgoug_test.roles: ~6 rows (approximately)
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
@@ -241,7 +273,8 @@ INSERT INTO `roles` (`id`, `authority`) VALUES
 	(3, 'ROLE_USER'),
 	(4, 'ROLE_USER'),
 	(5, 'ROLE_USER'),
-	(6, 'ROLE_USER');
+	(6, 'ROLE_USER'),
+	(7, 'ROLE_USER');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
