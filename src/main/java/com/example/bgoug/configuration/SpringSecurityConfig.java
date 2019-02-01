@@ -31,7 +31,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/fragments/**", "/member/register", "/img/*", "/member/login", "/css/**", "/bootstrap/**", "/jquery/**", "/assets/**", "/images/**").permitAll()
                 .antMatchers("/events/*", "/companies/*").hasRole("ADMIN")
-                .antMatchers("/member/**").access("hasRole('USER') or hasRole('ADMIN')")
+                .antMatchers("/member/all").access("hasRole('ADMIN')")
+                .antMatchers("/member/membersOfCompany").access("hasRole('USER') or hasRole('ADMIN')")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/member/login").permitAll()
@@ -50,6 +51,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable();
     }
+
     @Bean
     public BCryptPasswordEncoder getBCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
