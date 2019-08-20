@@ -2,12 +2,12 @@ package com.example.bgoug.events.servicesImpl;
 
 import com.example.bgoug.events.entities.Event;
 import com.example.bgoug.events.models.ViewModels.EventView;
+import com.example.bgoug.events.models.bindingModels.EditEventModel;
 import com.example.bgoug.events.models.bindingModels.EventModel;
 import com.example.bgoug.events.repositories.EventRepository;
 import com.example.bgoug.events.services.EventService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -59,5 +59,38 @@ public class EventServiceImpl implements EventService {
         List<Object[]> getEventsByYear = this.eventRepository.getEventByDate(date);
         return getEventsByYear;
     }
+
+	@Override
+	public EditEventModel getByIdToEdit(Long id) {
+		// TODO Auto-generated method stub
+		Event event = this.eventRepository.getOne(id);
+		ModelMapper modelMapper = new ModelMapper();
+		EditEventModel editEventModel = null;
+		
+		if (event != null){
+			editEventModel = modelMapper.map(event, EditEventModel.class);
+		}
+		
+		return editEventModel;
+	}
+
+	@Override
+	public void update(EditEventModel editEventModel) {
+		// TODO Auto-generated method stub
+		Event event = this.eventRepository.getOne(editEventModel.getId());
+		event.setName(editEventModel.getName());
+		event.setDescription(editEventModel.getDescription());
+		event.setCost(editEventModel.getCost());
+		event.setLocation(editEventModel.getLocation());
+		this.eventRepository.saveAndFlush(event);
+	}
+
+	@Override
+	public void delete(EditEventModel editEventModel) {
+		// TODO Auto-generated method stub
+		Event event = this.eventRepository.getOne(editEventModel.getId());
+		this.eventRepository.delete(event);
+		
+	}
 
 }

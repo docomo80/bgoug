@@ -1,8 +1,10 @@
 package com.example.bgoug.member.models.bindingModels;
 
+import com.example.bgoug.application.entities.Application;
 import com.example.bgoug.company.entities.Company;
-import com.example.bgoug.member.entities.Member;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 public class EditMemberModel {
@@ -28,8 +30,23 @@ public class EditMemberModel {
     private String pcPlatform;
 
     private Set<String> recommendedMembers;
+   
+	private Set<Application> applications;
+	
+	  public EditMemberModel() {
+			
+			this.applications = new HashSet<>();
+		}
 
-    public Long getId() {
+    public Set<Application> getApplications() {
+		return applications;
+	}
+
+	public void setApplications(Set<Application> applications) {
+		this.applications = applications;
+	}
+
+	public Long getId() {
         return id;
     }
 
@@ -116,4 +133,6 @@ public class EditMemberModel {
     public void setRecommendedMembers(Set<String> recommendedMembers) {
         this.recommendedMembers = recommendedMembers;
     }
-}
+    
+    
+} 

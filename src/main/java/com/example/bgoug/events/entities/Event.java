@@ -1,7 +1,6 @@
 package com.example.bgoug.events.entities;
 
 import com.example.bgoug.comment.entities.Comment;
-import com.example.bgoug.company.entities.Company;
 import com.example.bgoug.member.entities.Member;
 
 import javax.persistence.*;

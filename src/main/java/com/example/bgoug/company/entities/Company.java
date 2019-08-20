@@ -1,6 +1,5 @@
 package com.example.bgoug.company.entities;
 
-import com.example.bgoug.events.entities.Event;
 import com.example.bgoug.member.entities.Member;
 
 import javax.persistence.*;
@@ -35,7 +34,7 @@ public class Company {
         this.id = id;
     }
 
-    @Column(unique = true)
+    @Column (unique = true)
     public String getName() {
         return name;
     }
@@ -60,7 +59,7 @@ public class Company {
         this.typeOfBusiness = typeOfBusiness;
     }
 
-    @OneToMany(mappedBy = "company", orphanRemoval = true,
+   @OneToMany(mappedBy = "company", orphanRemoval = true,
             cascade = CascadeType.ALL)
     public Set<Member> getMembers() {
         return members;

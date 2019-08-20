@@ -5,8 +5,8 @@
     <div class="login-form">
         <div class="main-div">
             <div class="panel">
-                <h2>Администраторски панел</h2>
-                <p>Моля въведете потребителско име и парола</p>
+                <h2>Admin panel</h2>
+                <p>Please enter a username and password</p>
             </div>
             <div style="color: red" th:if="${error} != null" th:text="${error}"></div>
             <form id="Login" method="post">
@@ -24,10 +24,10 @@
                 </div>
                 <div class="form-check">
                     <label class="form-check-label">
-                    <input name="remember" type="checkbox" class="form-check-input"> Remember
+                    <input name="remember" type="checkbox" class="form-check-input"> Remember	
                     </label>
                 </div>
-                <button type="submit" class="btn btn-primary" value="log in">Login</button>
+                <button type="submit" class="btn btn-primary" value="log in">Log in</button>
 
             </form>
         </div>

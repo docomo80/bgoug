@@ -1,0 +1,130 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<main class="col-4 offset-4 text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center"><h1 class="display-5">New Member Registration</h1></div>
+                <br/>
+                <form th:method="post" th:object="${memberModel}">
+                    <div class="form-group row" th:classappend="${#fields.hasErrors('name')} ? 'has-danger'">
+                        <label class="form-control-label" for="name">Name</label>
+                        <input type="text" class="form-control" id="name" th:field="*{name}"/>
+                        <div class="form-control-feedback" th:each="error: ${#fields.errors('name')}"
+                             th:text="${error}"></div>
+                    </div>
+                    <div class="form-group row" th:classappend="${#fields.hasErrors('username')} ? 'has-danger'">
+                        <label class="form-control-label" for="inputUsername">User</label>
+                        <input type="text" class="form-control" id="inputUsername" th:field="*{username}" required/>
+                        <div class="form-control-feedback" th:each="error: ${#fields.errors('username')}"
+                             th:text="${error}"></div>
+                    </div>
+                    <div class="form-group row" th:classappend="${#fields.hasErrors('password')} ? 'has-danger'">
+                        <label class="form-control-label">Password</label>
+                        <input type="password" class="form-control" th:field="*{password}" required/>
+                        <div class="form-control-feedback" th:each="error: ${#fields.errors('password')}"
+                             th:text="${error}"></div>
+                    </div>
+                    <div class="form-group row" th:classappend="${#fields.hasErrors('global')} ? 'has-danger'">
+                        <label class="form-control-label">Reenter password</label>
+                        <input type="password" class="form-control" th:field="*{conformedPassword}" required/>
+                        <div class="form-control-feedback" th:each="error:${#fields.errors('global')}"
+                             th:text="${error}"></div>
+                    </div>
+                    <div class="form-group row" th:classappend="${#fields.hasErrors('address')} ? 'has-danger'">
+                        <label class="form-control-label">Address</label>
+                        <input type="text" class="form-control" th:field="*{address}" required/>
+                        <div class="form-control-feedback" th:each="error: ${#fields.errors('address')}"
+                             th:text="${error}"></div>
+
+                    </div>
+                    <div class="form-group row" th:classappend="${#fields.hasErrors('position')} ? 'has-danger'">
+                        <label class="form-control-label">Position</label>
+                        <input type="text" class="form-control" th:field="*{position}" required/>
+                        <div class="form-control-feedback" th:each="error: ${#fields.errors('position')}"
+                             th:text="${error}"></div>
+
+                    </div>
+                    <div class="form-group row" th:classappend="${#fields.hasErrors('telephoneNumber')} ? 'has-danger'">
+                        <label class="form-control-label">Telephone number</label>
+                        <input type="number" class="form-control" th:field="*{telephoneNumber}" required/>
+                        <div class="form-control-feedback" th:each="error: ${#fields.errors('telephoneNumber')}"
+                             th:text="${error}"></div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-control-label">Member Type </label>
+                        <select class="form-control" name="memberType" required>
+                            <option value="">Please choose</option>
+                            <option th:each="name : ${T(com.example.bgoug.member.enums.MemberType).values()}"
+                                    th:value="${{name}}"
+                                    th:text="${name}">
+                                <div th:text="${name}}"></div>
+                            </option>
+                        </select>
+                    </div>
+                    <!--isPayed-->
+                    <div class="form-group row">
+                        <label class="form-control-label">Paid membership fee? </label>
+                        <select class="form-control" name="isPayed" required>
+                            <option value="">Please choose</option>
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="form-control-label">Which company do you work for? </label>
+                        <select class="form-control" name="companyName" required>
+                            <option value="">Please choose</option>
+                            <option th:each="company : ${companies}" th:value="${company.name}"
+                                    th:text="${company.name}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="form-control-label">Please, choose an event to attend </label>
+                        <select class="form-control" name="event" id="dropOperator">
+                            <option value="">Please choose</option>
+                            <option th:each="event : ${events}" th:value="${event.name}"
+                                    th:text="${event.name}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-control-label">Please, choose your operating system </label>
+                        <select class="form-control" name="pcPlatform" required>
+                            <option value="">Please choose</option>
+                            <option th:each="name : ${T(com.example.bgoug.member.enums.PcPlatform).values()}"
+                                    th:value="${{name}}"
+                                    th:text="${name}">
+                                <div th:text="${name}}"></div>
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="form-control-label">Please, choose interests </label>
+                        <select class="form-control" name="applicationsList" multiple="multiple" required>
+                            <option value="">Please choose</option>
+                            <option th:each="currentApplication : ${applicationsList}"
+                                    th:value="${currentApplication.name}"
+                                    th:text="${currentApplication.name}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label class="form-control-label">Do you have a recommendation?</label>
+                        <select class="form-control" name="id" >
+                            <option value="">Please choose</option>
+                            <option th:each="member : ${membersViews}" th:value="${member.id}"
+                                    th:text="${member.name}" ></option>
+                        </select>
+                    </div>
+                    <input type="submit" class="btn btn-outline-warning btn-lg btn-block"
+                           th:value="${type}"/>
+                </form>
+                <br/>
+            </div>
+        </div>
+    </div>
+</main>
+

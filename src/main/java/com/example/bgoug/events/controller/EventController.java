@@ -1,16 +1,23 @@
 package com.example.bgoug.events.controller;
 
 import com.example.bgoug.comment.entities.Comment;
+import com.example.bgoug.company.models.bindingModels.EditCompanyModel;
 import com.example.bgoug.events.entities.Event;
 import com.example.bgoug.events.models.ViewModels.EventView;
 import com.example.bgoug.events.models.ViewModels.ViewSortedEvent;
+import com.example.bgoug.events.models.bindingModels.EditEventModel;
 import com.example.bgoug.events.models.bindingModels.EventModel;
 import com.example.bgoug.events.services.EventService;
+
+import org.apache.tomcat.util.http.parser.MediaType;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.util.*;
 
@@ -20,19 +27,58 @@ public class EventController {
 
     @Autowired
     private EventService eventService;
+    
+   @Autowired
+   private CharacterEncodingFilter characterEncodingFilter;
 
     @GetMapping("all")
     public String getAllCompaniesPage(Model model) {
         List<EventView> eventViews = this.eventService.getAllEvents();
         model.addAttribute("events", eventViews);
-        model.addAttribute("view", "/event/event-table");
+        model.addAttribute("view", "/events/event-table");
+        return "base-layout";
+    }
+    
+    @GetMapping("/edit/{id}")
+    public String getEditPage(Model model, @PathVariable Long id) {
+        EditEventModel editEventModel = this.eventService.getByIdToEdit(id);
+
+        model.addAttribute("view", "/events/event-edit");
+        model.addAttribute("type", "Edit");
+        model.addAttribute("event", editEventModel);
+        return "base-layout";
+    }
+    
+    @PostMapping("/edit/{id}")
+    public String postEditPage(@ModelAttribute EditEventModel editEventModel, @PathVariable Long id) {
+        editEventModel.setId(id);
+        System.out.println(editEventModel.getName());
+        this.eventService.update(editEventModel);
+        return "redirect:/events/all";
+    }
+    
+    
+    @GetMapping("/delete/{id}")
+    public String getDeletePage(Model model, @PathVariable Long id){
+        EditEventModel editEventModel = this.eventService.getByIdToEdit(id);
+        model.addAttribute("view", "/events/event-delete");
+        model.addAttribute("type", "Delete");
+        model.addAttribute("event", editEventModel);
         return "base-layout";
     }
 
+    @PostMapping("/delete/{id}")
+    public String postDeletePage(@ModelAttribute EditEventModel editEventModel, @PathVariable Long id){
+        editEventModel.setId(id);
+        this.eventService.delete(editEventModel);
+        return "redirect:/events/all";
+    }
+    
     @GetMapping("add")
     public String addEventsPage(Model model) {
         model.addAttribute("events", new EventModel());
-        model.addAttribute("view", "/event/event-add");
+        model.addAttribute("type", "Add");
+        model.addAttribute("view", "/events/event-add");
         return "base-layout";
     }
 
@@ -83,7 +129,7 @@ public class EventController {
         }
 
         model.addAttribute("events", sortedEvents);
-        model.addAttribute("view", "/event/sorted-events");
+        model.addAttribute("view", "/events/sorted-events");
         return "base-layout";
     }
 

@@ -1,0 +1,21 @@
+<div class="container">
+    <a  href="/companies/add" class="btn btn-outline-primary m-1"> Add a company</a>
+    <a  href="/companies/all" class="btn btn-outline-primary m-1"> All companies</a>
+
+    <table class="table table-condensed table-hover">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Number of Members</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="form-control-feedback" th:each="company : ${companies}">
+            <!--<th scope="row" th:text="${company.id}"></th>-->
+            <td th:text="${company.name}"></td>
+            <td th:text="${company.count}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+

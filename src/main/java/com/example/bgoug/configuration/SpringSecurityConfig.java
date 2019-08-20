@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -27,15 +27,21 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+    	
+		/*
+		 * CharacterEncodingFilter filter = new CharacterEncodingFilter();
+		 * filter.setEncoding("UTF-8"); filter.setForceEncoding(true);
+		 */
+        
         http
                 .authorizeRequests()
-                .antMatchers("/", "/fragments/**", "/member/register", "/img/*", "/member/login", "/css/**", "/bootstrap/**", "/jquery/**", "/assets/**", "/images/**").permitAll()
+                .antMatchers("/", "/fragments/**", "/members/register", "/img/*", "/members/login", "/css/**", "/bootstrap/**", "/jquery/**", "/assets/**", "/images/**").permitAll()
                 .antMatchers("/events/*", "/companies/*").hasRole("ADMIN")
-                .antMatchers("/member/all").access("hasRole('ADMIN')")
-                .antMatchers("/member/membersOfCompany").access("hasRole('USER') or hasRole('ADMIN')")
+                .antMatchers("/members/all").access("hasRole('ADMIN')")
+                .antMatchers("/members/membersOfCompany").access("hasRole('USER') or hasRole('ADMIN')")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/member/login").permitAll()
+                .formLogin().loginPage("/members/login").permitAll()
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .and()
@@ -50,11 +56,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedPage("/unauthorized")
                 .and()
                 .csrf().disable();
+       
     }
 
     @Bean
     public BCryptPasswordEncoder getBCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    
 
 }

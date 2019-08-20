@@ -1,6 +1,7 @@
 package com.example.bgoug.member.services;
 
 import com.example.bgoug.company.entities.Company;
+import com.example.bgoug.events.models.bindingModels.EditEventModel;
 import com.example.bgoug.member.models.bindingModels.EditMemberModel;
 import com.example.bgoug.member.models.bindingModels.LoggedMember;
 import com.example.bgoug.member.models.bindingModels.MemberModel;
@@ -32,5 +33,9 @@ public interface MemberService extends UserDetailsService {
     List<MemberView> findAllByCompany(Company company);
 
     EditMemberModel findMemberById(Long id);
+    
+    void update(EditMemberModel editMemberModel);
+    
+    void delete(EditMemberModel editMemberModel);
 
 }

@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -25,13 +24,13 @@ public class CompanyController {
     public String getCompanyPage(Model model) {
         List<CompanyView> companyViews = this.companyService.getAll();
         model.addAttribute("companies", companyViews);
-        model.addAttribute("view", "/company/company-table");
+        model.addAttribute("view", "/companies/company-table");
         return "base-layout";
     }
 
     @GetMapping("add")
     public String getAddCompanyPage(Model model) {
-        model.addAttribute("view", "/company/company-modifiable");
+        model.addAttribute("view", "/companies/company-edit");
         model.addAttribute("company", new AddCompanyModel());
         model.addAttribute("type", "Add");
         return "base-layout";
@@ -46,8 +45,8 @@ public class CompanyController {
     @GetMapping("/edit/{id}")
     public String getEditPage(Model model, @PathVariable Long id) {
         EditCompanyModel editCompanyModel = this.companyService.getByIdToEdit(id);
-        model.addAttribute("view", "/company/company-modifiable");
-        model.addAttribute("type", "edit");
+        model.addAttribute("view", "/companies/company-edit");
+        model.addAttribute("type", "Edit");
         model.addAttribute("company", editCompanyModel);
         return "base-layout";
     }
@@ -63,7 +62,7 @@ public class CompanyController {
     @GetMapping("/delete/{id}")
     public String getDeletePage(Model model, @PathVariable Long id){
         EditCompanyModel editCompanyModel = this.companyService.getByIdToEdit(id);
-        model.addAttribute("view", "/company/company-modifiable");
+        model.addAttribute("view", "/companies/company-delete");
         model.addAttribute("type", "Delete");
         model.addAttribute("company", editCompanyModel);
         return "base-layout";
@@ -90,7 +89,7 @@ public class CompanyController {
 
         }
         model.addAttribute("companies", companyViews);
-        model.addAttribute("view", "/company/company-ordered-by-members");
+        model.addAttribute("view", "/companies/company-ordered-by-members");
         return "base-layout";
     }
 }

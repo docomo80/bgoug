@@ -158,4 +158,35 @@ public class MemberServiceImpl implements MemberService {
         }
         return member;
     }
+
+	@Override
+	public void update(EditMemberModel editMemberModel) {
+		// TODO Auto-generated method stub
+		Member member = this.memberRepository.findMemberById(editMemberModel.getId());
+		member.setAddress(editMemberModel.getAddress());
+		/*
+		 * Company company = new Company();
+		 * company.setAddress(editMemberModel.getCompany().getAddress());
+		 * company.setName(editMemberModel.getCompany().getName());
+		 * company.setTypeOfBusiness(editMemberModel.getCompany().getTypeOfBusiness());
+		 */
+		member.setCompany(editMemberModel.getCompany());
+		member.setMembershipFee(editMemberModel.getMembershipFee());
+		member.setMemberType(editMemberModel.getMemberType());
+		member.setName(editMemberModel.getName());
+		member.setPosition(editMemberModel.getPosition());
+		member.setPcPlatform(editMemberModel.getPcPlatform());
+		member.setTelephoneNumber(editMemberModel.getTelephoneNumber());
+		member.setApplications(editMemberModel.getApplications());
+		this.memberRepository.save(member);
+		
+	}
+
+	@Override
+	public void delete(EditMemberModel editMemberModel) {
+		// TODO Auto-generated method stub
+		Member member = this.memberRepository.findMemberById(editMemberModel.getId());
+		this.memberRepository.delete(member);
+	}
+
 }

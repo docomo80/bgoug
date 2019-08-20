@@ -1,0 +1,60 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<main class="col-4 offset-4 text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center"><h1 class="display-5">Delete the member </h1></div>
+                <br/>
+                <form th:method="post" th:object="${member}">
+                    <div class="form-group row ">
+                        <label class="form-control-label">Name</label>
+                        <input type="text" class="form-control" th:field="*{name}" readonly/>
+                    </div>
+                    <div class="form-group row ">
+                        <label class="form-control-label">Address</label>
+                        <input type="text" class="form-control" th:field="*{address}" readonly/>
+                    </div>
+                    <div class="form-group row ">
+                        <label class="form-control-label">Position</label>
+                        <input type="text" class="form-control" th:field="*{position}" readonly/>
+                    </div>
+                    <div class="form-group row ">
+                        <label class="form-control-label">Telephone number</label>
+                        <input type="text" class="form-control" th:field="*{telephoneNumber}" readonly/>
+                    </div>
+                        <div class="form-group row ">
+                        <label class="form-control-label">Member Type</label>
+                        <input type="text" class="form-control" th:field="*{memberType}" readonly/>
+                    </div>
+                        <div class="form-group row ">
+                        <label class="form-control-label">Membership fee</label>
+	                    <p align="left" type="text" class="form-control" th:text="${member.membershipFee} ? 'paid' : 'unpaid'" readonly/>
+                    </div>
+                    
+                        <div class="form-group row" th:each="state : ${T(com.example.bgoug.member.enums.PcPlatform).values()}" th:if= "${member.pcPlatform} == ${state.getKey()}">	
+                        <label class="form-control-label">PC platform</label>                        				    
+						     <input type = "text" class="form-control" th:value="${state}" readonly>                                               						            						       						    									                          
+                                               				        
+							                    
+                      <!--   <span style="display: block" th:switch="${member.pcPlatform}">
+					     <br>
+							    <input type = "text" class="form-control" th:case="'001'" value ="XP" readonly> 
+							    <input type = "text" class="form-control" th:case="'002'" value="Vista" readonly>
+							    <input type = "text" class="form-control" th:case="'003'" value="Linux" readonly>
+							    <input type = "text" class="form-control" th:case="'004'" value="UNIX" readonly>
+							    <input type = "text" class="form-control" th:case="'005'" value="WINDOWS8" readonly>
+						</span	> -->
+                     </div>
+                        <div class="form-group row ">
+                        <label class="form-control-label">Company</label>
+                        <input type="text" class="form-control"th:value="${company}" readonly/>
+                    </div>
+                    <input type="submit" class="btn btn-outline-warning btn-lg btn-block"
+                           th:value="${type}"/>
+                </form>
+                <br/>
+            </div>
+        </div>
+    </div>
+</main>
