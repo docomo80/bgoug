@@ -19,10 +19,10 @@
             <td th:text="${company.typeOfBusiness}"></td>
             <th:block >
                 <td>
-                    <a th:href="@{/companies/delete/{id}(id=${company.id})}">Delete</a>
+                    <a th:href="@{/companies/delete/{id}(id=${company.id})}" class="btn btn-outline-danger m-1">Delete</a>
                 </td>
                 <td>
-                    <a th:href="@{/companies/edit/{id}(id=${company.id})}">Edit</a>
+                    <a th:href="@{/companies/edit/{id}(id=${company.id})}" class="btn btn-outline-primary m-1">Edit</a>
                 </td>
             </th:block>
         </tr>

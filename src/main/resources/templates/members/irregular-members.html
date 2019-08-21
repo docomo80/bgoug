@@ -20,8 +20,8 @@
         <tbody>
         <tr th:each="member : ${members}">
             <th scope="row" th:text="${member.name}"></th>
-            <th:block th:if="${member.membershipFee == false}">
-                <td >Unpaid</td>
+            <th:block th:if="${member.membershipFee == false}" >
+                <td style="color:red">Unpaid</td>
             </th:block>
             <td scope="row" th:text="${member.address}"></td>
             <td th:text="${member.memberType}"></td>

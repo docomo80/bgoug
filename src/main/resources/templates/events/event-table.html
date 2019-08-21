@@ -24,10 +24,10 @@
             <td th:text="|${#numbers.formatDecimal(event.cost,0,2)}лв.|"></td>
             <th:block >
                 <td>
-                    <a th:href="@{/events/delete/{id}(id=${event.id})}">Delete</a> 
+                    <a th:href="@{/events/delete/{id}(id=${event.id})}" class="btn btn-outline-danger m-1">Delete</a> 
                 </td>
                 <td>
-                    <a th:href="@{/events/edit/{id}(id=${event.id})}">Edit</a>
+                    <a th:href="@{/events/edit/{id}(id=${event.id})}" class="btn btn-outline-primary m-1">Edit</a>
                 </td>
             </th:block>
         </tr>
