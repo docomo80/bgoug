@@ -35,25 +35,26 @@
     <link rel="shortcut icon" th:href="@{/images/careydevicon.png}"></link>
 
     <link th:href="@{/assets/pages/css/about.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/chart.css}" rel="stylesheet" type="text/css"/>
 </head>
 <div th:include="fragments/header :: header"></div>
 
 <body class="page-container-bg-solid">
 <div class="page-container">
     <div class="page-content-wrapper">
-        <div class="page-head" style="background-color:#eff3f8;padding-top:40px">
+        <div class="page-head">
             <div class="container">
-                <div class="row" style="margin-bottom:30px">
-                    <div class="col-md-6">
-                        <h1>Събития</h1>
+                <div class="row" style="">
+                    <div class="col-md-12">
+                         <h1>Events</h1>
                     </div>
                 </div>
-                <div class="row" style="margin-bottom:30px">
-                    <div class="col-md-6" style="margin-top:20px">
-                        <div id="EventsByYear" style="width:100%; height:400px;"></div>
+                <div class="row">
+                    <div class="col-md-6" >
+                        <div id="EventsByYear" ></div>
                     </div>
-                    <div class="col-md-6" style="margin-top:20px">
-                        <div id="AllEvents" style="width:100%; height:400px;"></div>
+                    <div class="col-md-6">
+                        <div id="AllEvents" ></div>
                     </div>
                 </div>
             </div>
@@ -81,7 +82,7 @@
         var allEvents = Highcharts.chart('AllEvents', {
             chart: {
                 type: 'pie',
-                margin: 40,
+                margin: 20,
                 options3d: {
                     enabled: true,
                     alpha: 45,
@@ -89,7 +90,7 @@
                 }
             },
             title: {
-                text: 'Събития (общо)'
+                text: 'Events (summary)'
             },
             tooltip: {
                 pointFormat: "${point.y:,.0f}"
@@ -104,13 +105,13 @@
                 name: 'Regions',
                 colorByPoint: true,
                 data: [{
-                    name: 'Брой компании',
+                    name: 'Number of companies',
                     y: /*[[${countOfCompanies}]]*/ 0
                 }, {
-                    name: 'Брой посетители',
+                    name: 'Number of visitors',
                     y: /*[[${countOfMembers}]]*/ 0
                 }, {
-                    name: 'Брой коментари',
+                    name: 'Number of comments',
                     y: /*[[${countOfComments}]]*/ 0
 
                 }]
@@ -131,14 +132,14 @@
                 }
             },
             title: {
-                text: 'Събития по години'
+                text: 'Events by years'
             },
             xAxis: {
                 categories: ['2016', '2017', '2018']
             },
             yAxis: {
                 title: {
-                    text: 'Брой'
+                    text: 'Number'
                 }
             },
             tooltip: {
@@ -153,13 +154,13 @@
                 }
             },
             series: [{
-                name: 'Компании',
+                name: '`Companies',
                 data: /*[[${companies}]]*/ []
             }, {
-                name: 'Членове',
+                name: 'Members',
                 data: /*[[${members}]]*/ []
             }, {
-                name: 'Коментари',
+                name: 'Comments',
                 data: /*[[${comments}]]*/ []
             }]
         });

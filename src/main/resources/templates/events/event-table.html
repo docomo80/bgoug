@@ -21,7 +21,7 @@
             <th th:text="${event.name}"></th>
             <td th:text="${event.description}"></td>
             <td th:text="${event.location}"></td>
-            <td th:text="|${#numbers.formatDecimal(event.cost,0,2)}лв.|"></td>
+            <td th:text="|${#numbers.formatDecimal(event.cost,0,2)}lv.|"></td>
             <th:block >
                 <td>
                     <a th:href="@{/events/delete/{id}(id=${event.id})}" class="btn btn-outline-danger m-1">Delete</a> 

@@ -17,7 +17,7 @@
         <tbody>
         <tr class="danger" th:each="member : ${members}">
             <th scope="row" th:text="${member.name}"></th>
-            <td th:text="|${#numbers.formatDecimal(member.annualInstallment,0,2)}лв.|"></td>
+            <td th:text="|${#numbers.formatDecimal(member.annualInstallment,0,2)}lv.|"></td>
         </tr>
         </tbody>
     </table>

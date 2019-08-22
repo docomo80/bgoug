@@ -21,7 +21,7 @@
                     </div>
                     <div class="form-group row ">
                         <label class="form-control-label">Costs</label>
-                        <input type="text" class="form-control" th:field="*{cost}" required/>
+                        <input type="text" class="form-control" name="cost" th:value="|${#numbers.formatDecimal(event.cost,0,2)}lv.|" required/>
                     </div>
                     
                     <input type="submit" class="btn btn-outline-warning btn-lg btn-block"

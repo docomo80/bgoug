@@ -143,7 +143,7 @@ public class MemberController {
         Company company = this.companyService.getCompanyByName(editMemberModel.getCompany().getName());
         model.addAttribute("company", company.getName());
         model.addAttribute("view", "/members/member-delete");
-        model.addAttribute("type", "Delete");
+        model.addAttribute("type", "Confirm delete");
         model.addAttribute("member", editMemberModel);
         return "base-layout";
     }

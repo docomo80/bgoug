@@ -50,9 +50,10 @@ public class EventController {
     }
     
     @PostMapping("/edit/{id}")
-    public String postEditPage(@ModelAttribute EditEventModel editEventModel, @PathVariable Long id) {
+    public String postEditPage(@ModelAttribute EditEventModel editEventModel, @PathVariable Long id, @RequestParam Double cost) {
         editEventModel.setId(id);
         System.out.println(editEventModel.getName());
+        editEventModel.setCost(cost);
         this.eventService.update(editEventModel);
         return "redirect:/events/all";
     }
@@ -62,8 +63,8 @@ public class EventController {
     public String getDeletePage(Model model, @PathVariable Long id){
         EditEventModel editEventModel = this.eventService.getByIdToEdit(id);
         model.addAttribute("view", "/events/event-delete");
-        model.addAttribute("type", "Delete");
-        model.addAttribute("event", editEventModel);
+        model.addAttribute("type", "Confirm delete");
+        model.addAttribute("events", editEventModel);
         return "base-layout";
     }
 

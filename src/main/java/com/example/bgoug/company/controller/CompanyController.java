@@ -63,7 +63,7 @@ public class CompanyController {
     public String getDeletePage(Model model, @PathVariable Long id){
         EditCompanyModel editCompanyModel = this.companyService.getByIdToEdit(id);
         model.addAttribute("view", "/companies/company-delete");
-        model.addAttribute("type", "Delete");
+        model.addAttribute("type", "Confirm delete");
         model.addAttribute("company", editCompanyModel);
         return "base-layout";
     }
