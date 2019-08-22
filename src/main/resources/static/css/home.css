@@ -19,7 +19,7 @@ p {
 }
 
 .bg-2 {
-    background-color: gray;
+    background-color: #DEB887;
     color: #ffffff;
     font-family: "Arial Narrow";
     font-size: 14px;
@@ -57,4 +57,14 @@ p {
     color: #1abc9c !important;
 }
 
+/* .mainContainer {
+	flex;justify-content: center;
+    align-items: center;
+    overflow: hidden!important
+} */
 
+/* .img-responsive {
+	flex-shrink: 0;
+    min-width: 100%;
+    min-height: 100%
+} */
